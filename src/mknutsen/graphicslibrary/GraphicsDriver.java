@@ -14,20 +14,27 @@ import javax.swing.JFrame;
 public class GraphicsDriver extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private int currentComponentCounter;
+	private int currentComponentCounter, width, height;
 	private final GraphicsComponent[] components;
 
 	/**
 	 * Takes in any number of GraphicsComponents to switch between
 	 * 
+	 * @param width
+	 *            width of the frame
+	 * @param height
+	 *            height of the frame
 	 * @param components
 	 *            GraphicsComponents to view in the given order
 	 */
-	public GraphicsDriver(final GraphicsComponent... components) {
+	public GraphicsDriver(int width, int height,
+			final GraphicsComponent... components) {
+		this.width = width;
+		this.height = height;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		currentComponentCounter = 0;
 		this.components = components;
-		setSize(823, 849);
+		setSize(width, height);
 		setVisible(true);
 		setLocationRelativeTo(null);
 		switchGraphicsComponent(null);
@@ -58,7 +65,7 @@ public class GraphicsDriver extends JFrame {
 			killWindow();
 		} else {
 			components[currentComponentCounter].setPreferredSize(new Dimension(
-					850, 850));
+					width, height));
 			components[currentComponentCounter]
 					.setCallback(new CompletionCallback() {
 
@@ -76,7 +83,6 @@ public class GraphicsDriver extends JFrame {
 			components[currentComponentCounter].setFocusable(true);
 			pack();
 			components[currentComponentCounter].requestFocusInWindow();
-			setSize(823, 849);
 			setVisible(true);
 			currentComponentCounter++;
 		}
