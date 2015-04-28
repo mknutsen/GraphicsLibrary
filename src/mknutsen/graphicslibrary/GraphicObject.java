@@ -135,6 +135,12 @@ public abstract class GraphicObject {
 		return isInside(e.getX(), e.getY());
 	}
 
+	/**
+	 * Assigns the velocity if the player is moving
+	 * 
+	 * @param velocity
+	 *            the velocity to assign
+	 */
 	private void setVelocity(double velocity) {
 		this.velocity = moving ? velocity : 0;
 	}
