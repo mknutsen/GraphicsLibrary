@@ -1,160 +1,168 @@
 package mknutsen.graphicslibrary;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 /**
- * GraphicObject has all of the basic components for any rectangular based on
- * object that will be being displayed including position, width, height, and
- * velocity.
- * 
+ * GraphicObject has all of the basic components for any rectangular based on object that will be being displayed
+ * including position, width, height, and velocity.
+ *
  * @author Max Knutsen - mknutse1@umbc.edu
  */
 public abstract class GraphicObject {
-	private int x, y, width, height;
-	private double velocity;
-	private boolean moving;
 
-	public GraphicObject(int x, int y, int width, int height,
-			boolean isObjectMovable) {
-		super();
-		this.moving = isObjectMovable;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		if (isObjectMovable) {
-			// if the object isnt going to stay stil,
-			// the velocity of the piece will be tracked
-			new Thread(new Runnable() {
+    private final BufferedImage image;
 
-				@Override
-				public void run() {
-					int originalX = getX(), originalY = getY();
-					while (true) {
-						int deltaX = getX() - originalX;
-						int deltaY = getY() - originalY;
+    private int x, y, width, height;
 
-						int sign;
-						if (deltaX == 0) {
-							sign = deltaY == 0 ? 0 : deltaY / Math.abs(deltaY);
-						} else if (deltaY == 0) {
-							sign = deltaX / Math.abs(deltaX);
-						} else {
-							sign = deltaX / Math.abs(deltaX) * deltaY
-									/ Math.abs(deltaY);
-						}
+    private double velocity;
 
-						double distanceTraveled = Math.sqrt(Math.pow(deltaX, 2)
-								+ Math.pow(deltaY, 2));
-						setVelocity((double) distanceTraveled
-								/ (double) Config.VELOCITY_SLEEP_AMOUNT * sign);
-						originalX = getX();
-						originalY = getY();
-						try {
-							Thread.sleep(Config.VELOCITY_SLEEP_AMOUNT);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
+    private boolean moving;
 
-			}).start();
-		}
-	}
+    public GraphicObject(int x, int y, int width, int height, boolean isObjectMovable, BufferedImage image) {
+        super();
+        this.image = image;
+        this.moving = isObjectMovable;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        if (isObjectMovable) {
+            // if the object isnt going to stay stil,
+            // the velocity of the piece will be tracked
+            new Thread(new Runnable() {
 
-	public int getX() {
-		return x;
-	}
+                @Override
+                public void run() {
+                    int originalX = getX(), originalY = getY();
+                    while (true) {
+                        int deltaX = getX() - originalX;
+                        int deltaY = getY() - originalY;
 
-	public void setX(int x) {
-		this.x = x;
-	}
+                        int sign;
+                        if (deltaX == 0) {
+                            sign = deltaY == 0 ? 0 : deltaY / Math.abs(deltaY);
+                        } else if (deltaY == 0) {
+                            sign = deltaX / Math.abs(deltaX);
+                        } else {
+                            sign = deltaX / Math.abs(deltaX) * deltaY / Math.abs(deltaY);
+                        }
 
-	public int getY() {
-		return y;
-	}
+                        double distanceTraveled = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+                        setVelocity((double) distanceTraveled / (double) Config.VELOCITY_SLEEP_AMOUNT * sign);
+                        originalX = getX();
+                        originalY = getY();
+                        try {
+                            Thread.sleep(Config.VELOCITY_SLEEP_AMOUNT);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
-	public void setY(int y) {
-		this.y = y;
-	}
+            }).start();
+        }
+    }
 
-	public int getWidth() {
-		return width;
-	}
+    public GraphicObject(int x, int y, int width, int height, boolean isObjectMovable) {
+        this(x, y, width, height, isObjectMovable, null);
+    }
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
+    public int getX() {
+        return x;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    public int getY() {
+        return y;
+    }
 
-	/**
-	 * Determine if the given point is inside the object
-	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 * @return true if point is inside, false otherwise
-	 */
-	public boolean isInside(int x, int y) {
-		return ((this.y <= y && this.y + height >= y) && (this.x <= x && this.x
-				+ width >= x));
-	}
+    public void setY(int y) {
+        this.y = y;
+    }
 
-	/**
-	 * Determines if other object overlaps with this object
-	 * 
-	 * @param other
-	 *            potentially overlapping object
-	 * @return true if overlapping, false otherwise
-	 */
-	public boolean isOverlapping(GraphicObject other) {
-		return isInside(other.x, other.y)
-				|| isInside(other.x + other.width, other.y)
-				|| isInside(other.x, other.y + other.height)
-				|| isInside(other.x + other.width, other.y + other.height);
+    public int getWidth() {
+        return width;
+    }
 
-	}
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-	/**
-	 * Determine if the given point is inside the object
-	 * 
-	 * @param e
-	 *            MouseEvent signifying a point
-	 * @return true if point is inside, false otherwise
-	 */
-	public boolean isInside(MouseEvent e) {
-		return isInside(e.getX(), e.getY());
-	}
+    public int getHeight() {
+        return height;
+    }
 
-	/**
-	 * Assigns the velocity if the player is moving
-	 * 
-	 * @param velocity
-	 *            the velocity to assign
-	 */
-	private void setVelocity(double velocity) {
-		this.velocity = moving ? velocity : 0;
-	}
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
-	public double getVelocity() {
-		return velocity;
-	}
+    public BufferedImage getImage() {
+        return image;
 
-	/**
-	 * Draws the object on given canvas
-	 * 
-	 * @param gr
-	 *            canvas to draw on
-	 * @return false if the object could not be drawn for some reason
-	 */
-	public abstract boolean draw(Graphics gr);
+    }
+
+    /**
+     * Determine if the given point is inside the object
+     *
+     * @param x
+     *         x coordinate
+     * @param y
+     *         y coordinate
+     * @return true if point is inside, false otherwise
+     */
+    public boolean isInside(int x, int y) {
+        return ((this.y <= y && this.y + height >= y) && (this.x <= x && this.x + width >= x));
+    }
+
+    /**
+     * Determines if other object overlaps with this object
+     *
+     * @param other
+     *         potentially overlapping object
+     * @return true if overlapping, false otherwise
+     */
+    public boolean isOverlapping(GraphicObject other) {
+        return isInside(other.x, other.y) || isInside(other.x + other.width, other.y) ||
+                isInside(other.x, other.y + other.height) || isInside(other.x + other.width, other.y + other.height);
+
+    }
+
+    /**
+     * Determine if the given point is inside the object
+     *
+     * @param e
+     *         MouseEvent signifying a point
+     * @return true if point is inside, false otherwise
+     */
+    public boolean isInside(MouseEvent e) {
+        return isInside(e.getX(), e.getY());
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    /**
+     * Assigns the velocity if the player is moving
+     *
+     * @param velocity
+     *         the velocity to assign
+     */
+    private void setVelocity(double velocity) {
+        this.velocity = moving ? velocity : 0;
+    }
+
+    /**
+     * Draws the object on given canvas
+     *
+     * @param gr
+     *         canvas to draw on
+     * @return false if the object could not be drawn for some reason
+     */
+    public abstract boolean draw(Graphics gr);
 }
