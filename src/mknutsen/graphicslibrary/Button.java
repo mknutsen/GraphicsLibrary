@@ -105,5 +105,4 @@ public class Button extends GraphicObject {
     public String getText() {
         return text;
     }
-
 }

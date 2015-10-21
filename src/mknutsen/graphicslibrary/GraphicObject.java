@@ -10,15 +10,15 @@ import java.awt.image.BufferedImage;
  *
  * @author Max Knutsen - mknutse1@umbc.edu
  */
-public abstract class GraphicObject {
+public abstract class GraphicObject implements Clickable {
 
     private final BufferedImage image;
+
+    private final boolean moving;
 
     private int x, y, width, height;
 
     private double velocity;
-
-    private boolean moving;
 
     public GraphicObject(int x, int y, int width, int height, boolean isObjectMovable, BufferedImage image) {
         super();
@@ -69,35 +69,35 @@ public abstract class GraphicObject {
         this(x, y, width, height, isObjectMovable, null);
     }
 
-    public int getX() {
+    public final int getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public final void setX(int x) {
         this.x = x;
     }
 
-    public int getY() {
+    public final int getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public final void setY(int y) {
         this.y = y;
     }
 
-    public int getWidth() {
+    public final int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public final int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public final void setHeight(int height) {
         this.height = height;
     }
 
@@ -115,7 +115,7 @@ public abstract class GraphicObject {
      *         y coordinate
      * @return true if point is inside, false otherwise
      */
-    public boolean isInside(int x, int y) {
+    public final boolean isInside(int x, int y) {
         return ((this.y <= y && this.y + height >= y) && (this.x <= x && this.x + width >= x));
     }
 
@@ -126,7 +126,7 @@ public abstract class GraphicObject {
      *         potentially overlapping object
      * @return true if overlapping, false otherwise
      */
-    public boolean isOverlapping(GraphicObject other) {
+    public final boolean isOverlapping(GraphicObject other) {
         return isInside(other.x, other.y) || isInside(other.x + other.width, other.y) ||
                 isInside(other.x, other.y + other.height) || isInside(other.x + other.width, other.y + other.height);
 
@@ -139,11 +139,11 @@ public abstract class GraphicObject {
      *         MouseEvent signifying a point
      * @return true if point is inside, false otherwise
      */
-    public boolean isInside(MouseEvent e) {
+    public final boolean isInside(MouseEvent e) {
         return isInside(e.getX(), e.getY());
     }
 
-    public double getVelocity() {
+    public final double getVelocity() {
         return velocity;
     }
 

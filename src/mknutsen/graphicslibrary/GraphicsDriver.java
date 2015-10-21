@@ -37,7 +37,6 @@ public class GraphicsDriver extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         switchGraphicsComponent(null);
-
     }
 
     public static void main(String[] args) {
@@ -53,7 +52,7 @@ public class GraphicsDriver extends JFrame {
     /**
      * Closes the jFrame as if the x had been pressed
      */
-    private void killWindow() {
+    private final void killWindow() {
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 
     }
@@ -64,7 +63,7 @@ public class GraphicsDriver extends JFrame {
      * @param previouslyReturned
      *         passes in whatever object(s) the previous graphics component sent when it quit
      */
-    private void switchGraphicsComponent(Object[] previouslyReturned) {
+    private final void switchGraphicsComponent(Object[] previouslyReturned) {
         if (currentComponentCounter != 0) {
             components[currentComponentCounter - 1].setFocusable(false);
             remove(components[currentComponentCounter - 1]);
