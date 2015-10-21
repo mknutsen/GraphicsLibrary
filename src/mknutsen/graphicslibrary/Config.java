@@ -2,15 +2,15 @@ package mknutsen.graphicslibrary;
 
 /**
  * Contains config variables
- * 
+ *
  * @author mknutsen
  */
 public class Config {
 
-	private Config() {
+    public static final int VELOCITY_SLEEP_AMOUNT = 0;
 
-	}
+    private Config() {
 
-	protected static final int VELOCITY_SLEEP_AMOUNT = 0;
+    }
 
 }

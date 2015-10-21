@@ -89,6 +89,7 @@ public class GraphicsDriver extends JFrame {
             components[currentComponentCounter].requestFocusInWindow();
             setVisible(true);
             currentComponentCounter++;
+
         }
     }
 }

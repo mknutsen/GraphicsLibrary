@@ -1,7 +1,8 @@
-package mknutsen.graphicslibrary;
+package mknutsen.graphicslibrary.graphicsobject;
+
+import mknutsen.graphicslibrary.Config;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -10,24 +11,22 @@ import java.awt.image.BufferedImage;
  *
  * @author Max Knutsen - mknutse1@umbc.edu
  */
-public abstract class GraphicObject implements Clickable {
+public abstract class GraphicObject {
 
     private final BufferedImage image;
 
     private final boolean moving;
 
-    private int x, y, width, height;
+    private int x, y;
 
     private double velocity;
 
-    public GraphicObject(int x, int y, int width, int height, boolean isObjectMovable, BufferedImage image) {
+    public GraphicObject(int x, int y, boolean isObjectMovable, BufferedImage image) {
         super();
         this.image = image;
         this.moving = isObjectMovable;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
         if (isObjectMovable) {
             // if the object isnt going to stay stil,
             // the velocity of the piece will be tracked
@@ -65,8 +64,8 @@ public abstract class GraphicObject implements Clickable {
         }
     }
 
-    public GraphicObject(int x, int y, int width, int height, boolean isObjectMovable) {
-        this(x, y, width, height, isObjectMovable, null);
+    public GraphicObject(int x, int y, boolean isObjectMovable) {
+        this(x, y, isObjectMovable, null);
     }
 
     public final int getX() {
@@ -85,62 +84,9 @@ public abstract class GraphicObject implements Clickable {
         this.y = y;
     }
 
-    public final int getWidth() {
-        return width;
-    }
-
-    public final void setWidth(int width) {
-        this.width = width;
-    }
-
-    public final int getHeight() {
-        return height;
-    }
-
-    public final void setHeight(int height) {
-        this.height = height;
-    }
-
     public BufferedImage getImage() {
         return image;
 
-    }
-
-    /**
-     * Determine if the given point is inside the object
-     *
-     * @param x
-     *         x coordinate
-     * @param y
-     *         y coordinate
-     * @return true if point is inside, false otherwise
-     */
-    public final boolean isInside(int x, int y) {
-        return ((this.y <= y && this.y + height >= y) && (this.x <= x && this.x + width >= x));
-    }
-
-    /**
-     * Determines if other object overlaps with this object
-     *
-     * @param other
-     *         potentially overlapping object
-     * @return true if overlapping, false otherwise
-     */
-    public final boolean isOverlapping(GraphicObject other) {
-        return isInside(other.x, other.y) || isInside(other.x + other.width, other.y) ||
-                isInside(other.x, other.y + other.height) || isInside(other.x + other.width, other.y + other.height);
-
-    }
-
-    /**
-     * Determine if the given point is inside the object
-     *
-     * @param e
-     *         MouseEvent signifying a point
-     * @return true if point is inside, false otherwise
-     */
-    public final boolean isInside(MouseEvent e) {
-        return isInside(e.getX(), e.getY());
     }
 
     public final double getVelocity() {

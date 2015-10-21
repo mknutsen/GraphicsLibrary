@@ -1,5 +1,7 @@
 package mknutsen.graphicslibrary;
 
+import mknutsen.graphicslibrary.graphicsobject.RectangleGraphicObject;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -8,7 +10,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Max Knutsen - mknutse1@umbc.edu
  */
-public class Button extends GraphicObject {
+public class Button extends RectangleGraphicObject {
 
     /*
      * Default width and height for buttons
@@ -46,8 +48,7 @@ public class Button extends GraphicObject {
      *         words for it to print
      */
     public Button(int x, int y, int width, int height, String text) {
-        super(x, y, width, height, false);
-        this.text = text;
+        this(x, y, width, height, text, null);
     }
 
     /**
