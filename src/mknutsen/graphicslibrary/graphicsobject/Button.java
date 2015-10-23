@@ -1,4 +1,4 @@
-package mknutsen.graphicslibrary;
+package mknutsen.graphicslibrary.graphicsobject;
 
 import mknutsen.graphicslibrary.graphicsobject.RectangleGraphicObject;
 

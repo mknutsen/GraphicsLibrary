@@ -8,12 +8,28 @@ import java.awt.image.BufferedImage;
 import java.util.Scanner;
 
 /**
- * Created by mknutsen on 10/21/15.
+ * Extension of GraphicObject that handles rectangualr shaped object. Implements GraphicWidget.
  */
 public abstract class RectangleGraphicObject extends GraphicObject implements GraphicWidget {
 
     private int width, height;
 
+    /**
+     * Basic constructor.
+     *
+     * @param x
+     *         x location of top left
+     * @param y
+     *         y location of top left
+     * @param width
+     *         width of the rectangle
+     * @param height
+     *         height of the rectangle
+     * @param isObjectMovable
+     *         true if the object is moveable and should have a velocity associated with it
+     * @param image
+     *         image to be drawn (if null,  handle the null)
+     */
     public RectangleGraphicObject(int x, int y, int width, int height, boolean isObjectMovable, BufferedImage image) {
         super(x, y, isObjectMovable, image);
         this.width = width;
@@ -48,18 +64,32 @@ public abstract class RectangleGraphicObject extends GraphicObject implements Gr
         System.out.println(b.isOverlappingMaster(c));
     }
 
+    /**
+     * @return the width of the rectangle
+     */
     public final int getWidth() {
         return width;
     }
 
+    /**
+     * @param width
+     *         new width of the rectangle
+     */
     public final void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * @return height of the rectangle
+     */
     public final int getHeight() {
         return height;
     }
 
+    /**
+     * @param height
+     *         new height of the rectangle
+     */
     public final void setHeight(int height) {
         this.height = height;
     }
