@@ -1,7 +1,5 @@
 package mknutsen.graphicslibrary.graphicsobject;
 
-import mknutsen.graphicslibrary.graphicsobject.RectangleGraphicObject;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -18,6 +16,15 @@ public class Button extends RectangleGraphicObject {
     public static final int WIDTH = 50, HEIGHT = 50;
 
     private String text;
+
+    private ButtonCallback callback = null;
+
+    public Button(final int x, final int y, final int width, final int height, final BufferedImage image,
+                  final ButtonCallback callback) {
+        super(x, y, width, height, false, image);
+        this.callback = callback;
+        text = "";
+    }
 
     /**
      * Makes button at (x,y) that says text and is the default size
@@ -105,5 +112,16 @@ public class Button extends RectangleGraphicObject {
 
     public String getText() {
         return text;
+    }
+
+    public void click() {
+        if (callback != null) {
+            callback.trigger();
+        }
+    }
+
+    public static abstract class ButtonCallback {
+
+        public abstract void trigger();
     }
 }

@@ -13,9 +13,9 @@ import java.awt.image.BufferedImage;
  */
 public abstract class GraphicObject {
 
-    private final BufferedImage image;
-
     private final boolean moving;
+
+    private BufferedImage image;
 
     private int x, y;
 
@@ -87,6 +87,10 @@ public abstract class GraphicObject {
     public BufferedImage getImage() {
         return image;
 
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     public final double getVelocity() {
